@@ -1,8 +1,3 @@
-<script>
-if (location.pathname.endsWith("/index.html")) {
-  location.replace(location.pathname.replace("index.html", ""));
-}
-</script>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -65,6 +60,11 @@ if (location.pathname.endsWith("/index.html")) {
     line-height: 1.6;
   }
 </style>
+<script>
+  if (location.pathname.endsWith("/index.html")) {
+    location.replace(location.origin + "/");
+  }
+</script>
 </head>
 
 <body>

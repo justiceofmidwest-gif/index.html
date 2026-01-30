@@ -1,3 +1,8 @@
+<script>
+if (location.pathname.endsWith("/index.html")) {
+  location.replace(location.pathname.replace("index.html", ""));
+}
+</script>
 <!DOCTYPE html>
 <html lang="ja">
 <head>

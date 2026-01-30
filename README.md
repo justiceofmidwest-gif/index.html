@@ -7,7 +7,10 @@
 
 ## 公開URL
 
-[https://justiceofmidwest-gif.github.io/](https://justiceofmidwest-gif.github.io/)
+[みゃくみゃくじはこちら](https://justiceofmidwest-gif.github.io/)
+
+※ URLの末尾 `/` は必ず入っていることを確認してください。  
+※ 末尾 `/` がないと正しく表示されないことがあります。
 
 ---
 

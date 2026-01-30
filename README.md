@@ -12,64 +12,84 @@
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     text-align: center;
     padding: 30px 15px;
-    background: #fafafa;
+    background: linear-gradient(180deg, #ffffff, #f2f7f4);
+    color: #333;
   }
+
   h1 {
-    font-size: 24px;
+    font-size: 26px;
+    color: #1f6f5c;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
   }
+
   .intro {
     font-size: 16px;
-    margin-top: 10px;
-    color: #444;
+    color: #555;
+    margin-bottom: 25px;
   }
+
   button {
-    margin-top: 20px;
     font-size: 18px;
-    padding: 12px 24px;
-    border-radius: 8px;
+    padding: 14px 30px;
+    border-radius: 999px;
     border: none;
-    background: #222;
+    background: linear-gradient(135deg, #1f6f5c, #2a9d8f);
     color: #fff;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+    cursor: pointer;
   }
+
+  button:active {
+    transform: scale(0.96);
+  }
+
   .result {
-    margin-top: 30px;
+    margin: 35px auto 0;
+    padding: 22px 20px;
+    max-width: 420px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
   }
+
   .shuffle {
-    font-size: 18px;
+    font-size: 16px;
     color: #999;
   }
+
   .name {
     font-size: 22px;
     font-weight: bold;
     margin-top: 10px;
+    color: #1f6f5c;
   }
+
   .desc {
-    margin-top: 10px;
+    margin-top: 12px;
     font-size: 16px;
-    line-height: 1.6;
+    line-height: 1.7;
   }
+
   .thanks {
     margin-top: 20px;
     font-size: 14px;
-    color: #666;
+    color: #777;
   }
+
   footer {
-    margin-top: 40px;
+    margin-top: 50px;
     font-size: 12px;
     color: #999;
-    line-height: 1.6;
+    line-height: 1.8;
   }
 </style>
-<script>
-  if (location.pathname.endsWith("/index.html")) {
-    location.replace(location.origin + "/");
-  }
-</script>
 </head>
 
 <body>
 
 <h1>みゃくみゃくじ</h1>
+
 <div class="intro">
   12の「脈」から、今日のあなたに流れている運をひとつ授けます。
 </div>

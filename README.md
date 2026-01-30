@@ -7,81 +7,102 @@
 
 <meta name="description" content="12の「脈」から、今日のあなたに流れている運をひとつ授ける、1日1回のwebおみくじ。">
 
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-07RSW2R6PW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-07RSW2R6PW');
+</script>
+
 <style>
   body {
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", sans-serif;
     text-align: center;
-    padding: 30px 15px;
-    background: linear-gradient(180deg, #ffffff, #f2f7f4);
-    color: #333;
+    padding: 32px 16px;
+    background: linear-gradient(180deg, #fdfefe, #f1f7f6);
+    color: #222;
   }
 
   h1 {
     font-size: 26px;
-    color: #1f6f5c;
-    letter-spacing: 0.08em;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
   }
 
   .intro {
-    font-size: 16px;
+    font-size: 15px;
     color: #555;
-    margin-bottom: 25px;
+    margin-bottom: 24px;
   }
 
-  button {
+  button.main {
     font-size: 18px;
-    padding: 14px 30px;
+    padding: 14px 28px;
     border-radius: 999px;
     border: none;
-    background: linear-gradient(135deg, #1f6f5c, #2a9d8f);
+    background: #0a5c56;
     color: #fff;
-    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
     cursor: pointer;
   }
 
-  button:active {
-    transform: scale(0.96);
+  button.main:active {
+    transform: scale(0.97);
   }
 
   .result {
-    margin: 35px auto 0;
-    padding: 22px 20px;
-    max-width: 420px;
-    background: #ffffff;
-    border-radius: 18px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    margin-top: 32px;
   }
 
   .shuffle {
-    font-size: 16px;
     color: #999;
+    font-size: 16px;
   }
 
   .name {
     font-size: 22px;
     font-weight: bold;
-    margin-top: 10px;
-    color: #1f6f5c;
+    margin-top: 12px;
   }
 
   .desc {
-    margin-top: 12px;
     font-size: 16px;
+    margin-top: 10px;
     line-height: 1.7;
   }
 
   .thanks {
     margin-top: 20px;
     font-size: 14px;
-    color: #777;
+    color: #666;
   }
 
+  .share {
+    margin-top: 24px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .share button {
+    font-size: 14px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  .x { background: #000; }
+  .line { background: #06c755; }
+  .fb { background: #1877f2; }
+
   footer {
-    margin-top: 50px;
+    margin-top: 48px;
     font-size: 12px;
-    color: #999;
-    line-height: 1.8;
+    color: #888;
+    line-height: 1.7;
   }
 </style>
 </head>
@@ -89,24 +110,29 @@
 <body>
 
 <h1>みゃくみゃくじ</h1>
-
 <div class="intro">
   12の「脈」から、今日のあなたに流れている運をひとつ授けます。
 </div>
 
-<button onclick="draw()">くじを引く</button>
+<button class="main" onclick="draw()">くじを引く</button>
 
 <div class="result">
   <div id="status" class="shuffle"></div>
   <div id="name" class="name"></div>
   <div id="desc" class="desc"></div>
   <div id="thanks" class="thanks"></div>
+
+  <div class="share" id="shareArea" style="display:none;">
+    <button class="x" onclick="shareX()">X</button>
+    <button class="line" onclick="shareLINE()">LINE</button>
+    <button class="fb" onclick="shareFB()">Facebook</button>
+  </div>
 </div>
 
 <footer>
   © 2026 みゃくみゃくじ<br>
   ※ 本コンテンツは個人制作の占いコンテンツです。<br>
-  ※ 本コンテンツは特定の団体・キャラクターとは関係ありません。
+  ※ 特定の団体・キャラクターとは関係ありません。
 </footer>
 
 <script>
@@ -130,21 +156,20 @@ function draw() {
   const savedDate = localStorage.getItem("omikuji-date");
 
   if (savedDate === today) {
-    const savedResult = JSON.parse(localStorage.getItem("omikuji-result"));
-    show(savedResult);
+    show(JSON.parse(localStorage.getItem("omikuji-result")));
     return;
   }
 
   document.getElementById("status").innerText = "……シャッフル中……";
-  document.getElementById("name").innerText = "";
-  document.getElementById("desc").innerText = "";
-  document.getElementById("thanks").innerText = "";
+  document.getElementById("shareArea").style.display = "none";
 
   setTimeout(() => {
     const result = omikuji[Math.floor(Math.random() * omikuji.length)];
     localStorage.setItem("omikuji-date", today);
     localStorage.setItem("omikuji-result", JSON.stringify(result));
     show(result);
+
+    gtag('event', 'draw_omikuji');
   }, 1200);
 }
 
@@ -153,6 +178,36 @@ function show(r) {
   document.getElementById("name").innerText = r.name;
   document.getElementById("desc").innerText = r.desc;
   document.getElementById("thanks").innerText = "ありがとう！また明日も来てね 🌱";
+  document.getElementById("shareArea").style.display = "flex";
+}
+
+function shareText() {
+  return `今日の「みゃくみゃくじ」は【${name.innerText}】\n${desc.innerText}\n\n#みゃくみゃくじ`;
+}
+
+function shareX() {
+  window.open(
+    "https://twitter.com/intent/tweet?text=" +
+    encodeURIComponent(shareText()) +
+    "&url=" + encodeURIComponent(location.href),
+    "_blank"
+  );
+}
+
+function shareLINE() {
+  window.open(
+    "https://social-plugins.line.me/lineit/share?text=" +
+    encodeURIComponent(shareText() + "\n" + location.href),
+    "_blank"
+  );
+}
+
+function shareFB() {
+  window.open(
+    "https://www.facebook.com/sharer/sharer.php?u=" +
+    encodeURIComponent(location.href),
+    "_blank"
+  );
 }
 </script>
 

@@ -4,105 +4,77 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>みゃくみゃくじ</title>
-
 <meta name="description" content="12の「脈」から、今日のあなたに流れている運をひとつ授ける、1日1回のwebおみくじ。">
 
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-07RSW2R6PW"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-07RSW2R6PW');
-</script>
+<!-- OGP -->
+<meta property="og:title" content="みゃくみゃくじ｜今日の運をひとつ">
+<meta property="og:description" content="12の「脈」から、今日のあなたに流れている運をひとつ授けます。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://justiceofmidwest-gif.github.io/">
+<meta property="og:image" content="https://justiceofmidwest-gif.github.io/og.png">
+
+<!-- Twitter(X) -->
+<meta name="twitter:card" content="summary_large_image">
 
 <style>
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     text-align: center;
-    padding: 32px 16px;
-    background: linear-gradient(180deg, #fdfefe, #f1f7f6);
-    color: #222;
+    padding: 30px 15px;
+    background: linear-gradient(to bottom, #0a5c56, #2fa4a9);
+    min-height: 100vh;
+    color: #fff;
   }
-
   h1 {
-    font-size: 26px;
-    margin-bottom: 6px;
+    font-size: 28px;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
   }
-
   .intro {
-    font-size: 15px;
-    color: #555;
-    margin-bottom: 24px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #f0f0f0;
   }
-
-  button.main {
+  button {
     font-size: 18px;
-    padding: 14px 28px;
-    border-radius: 999px;
+    padding: 12px 24px;
+    border-radius: 8px;
     border: none;
-    background: #0a5c56;
+    background: #e63946;
     color: #fff;
     cursor: pointer;
+    transition: 0.3s;
   }
-
-  button.main:active {
-    transform: scale(0.97);
+  button:hover {
+    background: #ff6b6b;
   }
-
   .result {
-    margin-top: 32px;
+    margin-top: 30px;
   }
-
   .shuffle {
-    color: #999;
-    font-size: 16px;
+    font-size: 18px;
+    color: #ddd;
   }
-
   .name {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: bold;
-    margin-top: 12px;
-  }
-
-  .desc {
-    font-size: 16px;
     margin-top: 10px;
-    line-height: 1.7;
   }
-
+  .desc {
+    margin-top: 10px;
+    font-size: 16px;
+    line-height: 1.6;
+  }
   .thanks {
     margin-top: 20px;
     font-size: 14px;
-    color: #666;
+    color: #eee;
   }
-
-  .share {
-    margin-top: 24px;
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .share button {
-    font-size: 14px;
-    padding: 8px 14px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    color: #fff;
-  }
-
-  .x { background: #000; }
-  .line { background: #06c755; }
-  .fb { background: #1877f2; }
-
   footer {
-    margin-top: 48px;
+    margin-top: 50px;
     font-size: 12px;
-    color: #888;
-    line-height: 1.7;
+    color: #ccc;
+    line-height: 1.6;
   }
 </style>
 </head>
@@ -114,101 +86,78 @@
   12の「脈」から、今日のあなたに流れている運をひとつ授けます。
 </div>
 
-<button class="main" onclick="draw()">くじを引く</button>
+<button onclick="draw()">くじを引く</button>
 
 <div class="result">
   <div id="status" class="shuffle"></div>
   <div id="name" class="name"></div>
   <div id="desc" class="desc"></div>
   <div id="thanks" class="thanks"></div>
-
-  <div class="share" id="shareArea" style="display:none;">
-    <button class="x" onclick="shareX()">X</button>
-    <button class="line" onclick="shareLINE()">LINE</button>
-    <button class="fb" onclick="shareFB()">Facebook</button>
-  </div>
 </div>
 
 <footer>
   © 2026 みゃくみゃくじ<br>
   ※ 本コンテンツは個人制作の占いコンテンツです。<br>
-  ※ 特定の団体・キャラクターとは関係ありません。
+  ※ 本コンテンツは特定の団体・キャラクターとは関係ありません。
 </footer>
 
 <script>
+// くじデータ
 const omikuji = [
-  { name: "金脈（きんみゃく）", desc: "金運が良い、富の源泉を見つける" },
-  { name: "人脈（じんみゃく）", desc: "素敵なご縁に恵まれる、助け合える仲間ができる" },
-  { name: "脈々（みゃくみゃく）", desc: "大切な伝統や想いを受け継ぎ、次へ繋げる" },
-  { name: "脈拍（みゃくはく）", desc: "心身ともに健康で、リズムが安定している" },
-  { name: "脈絡（みゃくらく）", desc: "物事の筋道が見え、賢明な判断ができる" },
-  { name: "山脈（さんみゃく）", desc: "大きな志を持ち、さらなる高みへ到達できる" },
-  { name: "水脈（すいみゃく）", desc: "知恵やアイデアが枯れることなく湧き出し続ける" },
-  { name: "気脈（きみゃく）", desc: "周囲の人と心が通じ合い、最高の連携が取れる" },
-  { name: "地脈（ちみゃく）", desc: "場所や環境のエネルギーを味方につけ、安定する" },
-  { name: "鉱脈（こうみゃく）", desc: "自分の中に眠っていた新しい才能や宝を発見する" },
-  { name: "脈あり（みゃくあり）", desc: "期待していたことに光が差し、願いが叶う兆し" },
-  { name: "ミャクミャク", desc: "変化を楽しみながら、生命力あふれる未来を切り拓く" }
+  { name: "金脈（きんみゃく）", desc: "金運が良い、富の源泉を見つけることが出来るでしょう！" },
+  { name: "人脈（じんみゃく）", desc: "素敵なご縁に恵まれる、助け合える仲間ができるでしょう！" },
+  { name: "脈々（みゃくみゃく）", desc: "大切な伝統や想いを受け継ぎ、次へ繋げることが出来るでしょう！" },
+  { name: "脈拍（みゃくはく）", desc: "心身ともに健康で、リズムが安定するでしょう！" },
+  { name: "脈絡（みゃくらく）", desc: "物事の筋道が見え、賢明な判断ができるでしょう！" },
+  { name: "山脈（さんみゃく）", desc: "大きな志を持ち、さらなる高みへ到達できるでしょう！" },
+  { name: "水脈（すいみゃく）", desc: "知恵やアイデアが枯れることなく湧き出し続けるでしょう！" },
+  { name: "気脈（きみゃく）", desc: "周囲の人と心が通じ合い、最高の連携が取れるでしょう！" },
+  { name: "地脈（ちみゃく）", desc: "場所や環境のエネルギーを味方につけ、安定するでしょう！" },
+  { name: "鉱脈（こうみゃく）", desc: "自分の中に眠っていた新しい才能や宝を発見出来るでしょう！" },
+  { name: "脈あり（みゃくあり）", desc: "期待していたことに光が差し、願いが叶う兆しがあります！" },
+  { name: "ミャクミャク", desc: "変化を楽しみながら、生命力あふれる未来を切り拓くことが出来るでしょう！" }
 ];
 
+// くじを引く関数
 function draw() {
   const today = new Date().toDateString();
   const savedDate = localStorage.getItem("omikuji-date");
 
   if (savedDate === today) {
-    show(JSON.parse(localStorage.getItem("omikuji-result")));
+    const savedResult = JSON.parse(localStorage.getItem("omikuji-result"));
+    show(savedResult);
     return;
   }
 
   document.getElementById("status").innerText = "……シャッフル中……";
-  document.getElementById("shareArea").style.display = "none";
+  document.getElementById("name").innerText = "";
+  document.getElementById("desc").innerText = "";
+  document.getElementById("thanks").innerText = "";
 
   setTimeout(() => {
     const result = omikuji[Math.floor(Math.random() * omikuji.length)];
     localStorage.setItem("omikuji-date", today);
     localStorage.setItem("omikuji-result", JSON.stringify(result));
     show(result);
-
-    gtag('event', 'draw_omikuji');
   }, 1200);
 }
 
+// 結果を表示
 function show(r) {
   document.getElementById("status").innerText = "";
   document.getElementById("name").innerText = r.name;
   document.getElementById("desc").innerText = r.desc;
   document.getElementById("thanks").innerText = "ありがとう！また明日も来てね 🌱";
-  document.getElementById("shareArea").style.display = "flex";
 }
 
-function shareText() {
-  return `今日の「みゃくみゃくじ」は【${name.innerText}】\n${desc.innerText}\n\n#みゃくみゃくじ`;
-}
+// Google Analytics（測定ID置き換え済み）
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-function shareX() {
-  window.open(
-    "https://twitter.com/intent/tweet?text=" +
-    encodeURIComponent(shareText()) +
-    "&url=" + encodeURIComponent(location.href),
-    "_blank"
-  );
-}
-
-function shareLINE() {
-  window.open(
-    "https://social-plugins.line.me/lineit/share?text=" +
-    encodeURIComponent(shareText() + "\n" + location.href),
-    "_blank"
-  );
-}
-
-function shareFB() {
-  window.open(
-    "https://www.facebook.com/sharer/sharer.php?u=" +
-    encodeURIComponent(location.href),
-    "_blank"
-  );
-}
+ga('create', 'G-07RSW2R6PW', 'auto');
+ga('send', 'pageview');
 </script>
 
 </body>

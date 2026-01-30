@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>脈おみくじ</title>
+<title>みゃくみゃくじ</title>
 
 <meta name="description" content="12の「脈」から、今日のあなたに流れている運をひとつ授ける、1日1回のwebおみくじ。">
 

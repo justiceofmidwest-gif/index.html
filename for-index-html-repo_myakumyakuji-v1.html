@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>みゃくみゃくじ</title>
+<meta name="description" content="12の「脈」から、今日のあなたに流れている運をひとつ授ける、1日1回限定のWebおみくじ。">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-07RSW2R6PW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-07RSW2R6PW');
+</script>
+
+<!-- OGP / SNS -->
+<meta property="og:title" content="みゃくみゃくじ Webおみくじ">
+<meta property="og:description" content="12の「脈」から、今日のあなたに流れている運をひとつ授けます。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://justiceofmidwest-gif.github.io/justiceofmidwest-gif/">
+<meta property="og:image" content="https://justiceofmidwest-gif.github.io/justiceofmidwest-gif/og.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="みゃくみゃくじ Webおみくじ">
+<meta name="twitter:description" content="12の「脈」から、今日のあなたに流れている運をひとつ授けます。">
+<meta name="twitter:image" content="https://justiceofmidwest-gif.github.io/justiceofmidwest-gif/og.png">
+
+<style>
+body {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  text-align: center;
+  padding: 30px 15px;
+  background: linear-gradient(180deg, #fff7e6, #ffe4e1);
+}
+
+h1 {
+  font-size: 26px;
+  margin-bottom: 8px;
+}
+
+.intro {
+  font-size: 16px;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+button {
+  font-size: 18px;
+  padding: 12px 26px;
+  border-radius: 999px;
+  border: none;
+  background: #c41e3a;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.result {
+  margin-top: 30px;
+}
+
+.shuffle {
+  font-size: 18px;
+  color: #999;
+}
+
+.name {
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 12px;
+}
+
+.desc {
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.thanks {
+  margin-top: 18px;
+  font-size: 14px;
+  color: #666;
+}
+
+.share-message {
+  margin-top: 32px;
+  font-size: 15px;
+  color: #444;
+  line-height: 1.6;
+}
+
+.share-buttons {
+  margin-top: 14px;
+}
+
+.share-buttons button {
+  margin: 6px;
+  padding: 10px 18px;
+  font-size: 14px;
+}
+
+.share-x { background: #1da1f2; }
+.share-facebook { background: #1877f2; }
+.share-line { background: #00c300; }
+
+footer {
+  margin-top: 40px;
+  font-size: 12px;
+  color: #999;
+  line-height: 1.6;
+}
+</style>
+
+<script>
+// index.html を project URL に統一
+if (location.pathname.endsWith("/index.html")) {
+  location.replace("https://justiceofmidwest-gif.github.io/justiceofmidwest-gif/");
+}
+
+// おみくじデータ（丁寧語）
+const omikuji = [
+  { name: "金脈（きんみゃく）", desc: "金運が良く、富の源泉を見つけられるでしょう。" },
+  { name: "人脈（じんみゃく）", desc: "素敵なご縁に恵まれ、助け合える仲間ができるでしょう。" },
+  { name: "脈々（みゃくみゃく）", desc: "大切な伝統や想いを受け継ぎ、次へと繋げられるでしょう。" },
+  { name: "脈拍（みゃくはく）", desc: "心身ともに健康で、リズムが安定するでしょう。" },
+  { name: "脈絡（みゃくらく）", desc: "物事の筋道が見え、賢明な判断ができるでしょう。" },
+  { name: "山脈（さんみゃく）", desc: "大きな志を持ち、さらなる高みへ到達できるでしょう。" },
+  { name: "水脈（すいみゃく）", desc: "知恵やアイデアが枯れることなく湧き出し続けるでしょう。" },
+  { name: "気脈（きみゃく）", desc: "周囲の人と心が通じ合い、最高の連携が取れるでしょう。" },
+  { name: "地脈（ちみゃく）", desc: "場所や環境のエネルギーを味方につけ、安定するでしょう。" },
+  { name: "鉱脈（こうみゃく）", desc: "自分の中に眠っていた新しい才能や宝を発見するでしょう。" },
+  { name: "脈あり（みゃくあり）", desc: "期待していたことに光が差し、願いが叶う兆しがあるでしょう。" },
+  { name: "ミャクミャク", desc: "変化を楽しみながら、生命力あふれる未来を切り拓くことができるでしょう。" }
+];
+
+function draw() {
+  const today = new Date().toDateString();
+  const savedDate = localStorage.getItem("omikuji-date");
+
+  if (savedDate === today) {
+    show(JSON.parse(localStorage.getItem("omikuji-result")));
+    return;
+  }
+
+  document.getElementById("status").innerText = "……シャッフル中……";
+  document.getElementById("name").innerText = "";
+  document.getElementById("desc").innerText = "";
+  document.getElementById("thanks").innerText = "";
+
+  setTimeout(() => {
+    const result = omikuji[Math.floor(Math.random() * omikuji.length)];
+    localStorage.setItem("omikuji-date", today);
+    localStorage.setItem("omikuji-result", JSON.stringify(result));
+    show(result);
+  }, 1200);
+}
+
+function show(r) {
+  document.getElementById("status").innerText = "";
+  document.getElementById("name").innerText = r.name;
+  document.getElementById("desc").innerText = r.desc;
+  document.getElementById("thanks").innerText = "ありがとう！また明日も来てね 🌱";
+}
+
+// SNSシェア
+function shareX() {
+  const url = encodeURIComponent(location.href);
+  const text = encodeURIComponent("今日の運勢をチェック！ #みゃくみゃくじ");
+  window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, "_blank");
+}
+
+function shareFacebook() {
+  window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(location.href)}`, "_blank");
+}
+
+function shareLINE() {
+  window.open(`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(location.href)}`, "_blank");
+}
+</script>
+</head>
+
+<body>
+
+<h1>みゃくみゃくじ</h1>
+
+<div class="intro">
+  12の「脈」から、今日のあなたに流れている運をひとつ授けます。
+</div>
+
+<button onclick="draw()">くじを引く</button>
+
+<div class="result">
+  <div id="status" class="shuffle"></div>
+  <div id="name" class="name"></div>
+  <div id="desc" class="desc"></div>
+  <div id="thanks" class="thanks"></div>
+</div>
+
+<div class="share-message">
+  良ければ皆さんにシェアをお願いします。<br>
+  さらに運気が上がることでしょう。
+</div>
+
+<div class="share-buttons">
+  <button class="share-x" onclick="shareX()">Xでシェア</button>
+  <button class="share-facebook" onclick="shareFacebook()">Facebookでシェア</button>
+  <button class="share-line" onclick="shareLINE()">LINEでシェア</button>
+</div>
+
+<footer>
+  © 2026 みゃくみゃくじ<br>
+  ※ 本コンテンツは個人制作の占いコンテンツです。<br>
+  ※ 本コンテンツは特定の団体・キャラクターとは関係ありません。
+</footer>
+
+</body>
+</html>

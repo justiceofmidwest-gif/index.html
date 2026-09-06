@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>みゃくみゃくじ 31</title>
+<meta name="description" content="31の「脈」から、今日のあなたに流れている運をひとつ授ける、1日1回限定のWebおみくじ。激レア「脈々（レアみゃくみゃく）」の出現率は約1%。">
+
+<!-- Favicon / お気に入り・ホーム画面用アイコン(myakumyakujiリポジトリの画像を共用) -->
+<link rel="icon" type="image/png" sizes="32x32" href="https://justiceofmidwest-gif.github.io/myakumyakuji/myaku-favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://justiceofmidwest-gif.github.io/myakumyakuji/myaku-favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://justiceofmidwest-gif.github.io/myakumyakuji/myaku-apple-touch-icon.png">
+<link rel="manifest" href="https://justiceofmidwest-gif.github.io/myakumyakuji/myaku-manifest.webmanifest">
+<meta name="theme-color" content="#E6002D">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-07RSW2R6PW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-07RSW2R6PW');
+</script>
+
+<!-- OGP / SNS -->
+<meta property="og:title" content="みゃくみゃくじ 31 Webおみくじ">
+<meta property="og:description" content="31の「脈」から、今日のあなたに流れている運をひとつ授けます。激レア「脈々（レアみゃくみゃく）」は出現率約1%！">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://justiceofmidwest-gif.github.io/index.html/">
+<meta property="og:image" content="https://justiceofmidwest-gif.github.io/myakumyakuji/og.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="みゃくみゃくじ 31 Webおみくじ">
+<meta name="twitter:description" content="31の「脈」から、今日のあなたに流れている運をひとつ授けます。激レア出現率約1%！">
+<meta name="twitter:image" content="https://justiceofmidwest-gif.github.io/myakumyakuji/og.png">
+
+<style>
+:root {
+  --myaku-red: #E6002D;
+  --myaku-blue: #0089C7;
+  --myaku-dark-blue: #005E8E;
+  --myaku-white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+  text-align: center;
+  padding: 30px 15px;
+  margin: 0;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(0, 137, 199, 0.18), transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(230, 0, 45, 0.15), transparent 45%),
+    linear-gradient(180deg, #f4fbff 0%, #ffffff 45%, #fff5f6 100%);
+  color: #222;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 6px;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--myaku-red), var(--myaku-blue));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: 0.02em;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 12px;
+  color: var(--myaku-dark-blue);
+  background: #fff;
+  border: 1px solid rgba(0, 137, 199, 0.35);
+  border-radius: 999px;
+  padding: 4px 12px;
+  margin-bottom: 14px;
+}
+
+.intro {
+  font-size: 15px;
+  color: #444;
+  margin: 0 auto 22px;
+  max-width: 420px;
+  line-height: 1.7;
+}
+
+button {
+  font-size: 18px;
+  padding: 13px 30px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(120deg, var(--myaku-red), #ff4d6a);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(230, 0, 45, 0.35);
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+button:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: default;
+  transform: none;
+}
+
+.result {
+  margin-top: 30px;
+}
+
+.shuffle {
+  font-size: 17px;
+  color: var(--myaku-dark-blue);
+}
+
+.card {
+  display: none;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 26px 22px;
+  border-radius: 20px;
+  background: #fff;
+  border: 2px solid var(--myaku-blue);
+  box-shadow: 0 8px 26px rgba(0, 94, 142, 0.15);
+}
+
+.card.show {
+  display: block;
+}
+
+.card.rare {
+  border: 2px solid transparent;
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(120deg, var(--myaku-red), gold, var(--myaku-blue), var(--myaku-red)) border-box;
+  box-shadow: 0 0 24px rgba(230, 0, 45, 0.35), 0 0 24px rgba(0, 137, 199, 0.25);
+  animation: sparkle 2.2s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { box-shadow: 0 0 18px rgba(230, 0, 45, 0.3), 0 0 18px rgba(0, 137, 199, 0.25); }
+  50% { box-shadow: 0 0 30px rgba(230, 0, 45, 0.5), 0 0 30px rgba(0, 137, 199, 0.4); }
+}
+
+.rare-label {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(90deg, var(--myaku-red), gold, var(--myaku-blue), var(--myaku-red));
+  background-size: 300% 100%;
+  animation: rare-label-shine 2.5s linear infinite;
+  padding: 3px 12px;
+  border-radius: 999px;
+  margin-bottom: 10px;
+}
+
+@keyframes rare-label-shine {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+.confetti-container {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.effect-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9000;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -20px;
+  will-change: transform, opacity;
+  animation-name: confetti-fall;
+  animation-timing-function: cubic-bezier(0.4, 0.1, 0.6, 1);
+  animation-fill-mode: forwards;
+}
+
+@keyframes confetti-fall {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+  100% { transform: translate(var(--drift), 115vh) rotate(var(--spin)); opacity: 0.4; }
+}
+
+.name {
+  font-size: 23px;
+  font-weight: bold;
+  margin-top: 4px;
+  color: #222;
+}
+
+.desc {
+  margin-top: 12px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #333;
+}
+
+.thanks {
+  margin-top: 18px;
+  font-size: 14px;
+  color: #666;
+}
+
+.share-message {
+  margin-top: 34px;
+  font-size: 15px;
+  color: #444;
+  line-height: 1.6;
+}
+
+.share-buttons {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.share-buttons button {
+  padding: 10px 18px;
+  font-size: 14px;
+  box-shadow: none;
+}
+
+.share-buttons button:disabled {
+  box-shadow: none;
+}
+
+.share-x { background: #000; }
+.share-facebook { background: #1877f2; }
+.share-line { background: #00c300; }
+.share-copy {
+  background: #fff;
+  color: var(--myaku-dark-blue);
+  border: 1.5px solid var(--myaku-blue);
+}
+
+.copy-toast {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--myaku-blue);
+  min-height: 18px;
+}
+
+footer {
+  margin-top: 40px;
+  font-size: 12px;
+  color: #999;
+  line-height: 1.6;
+}
+</style>
+
+<script>
+// おみくじデータ（31種／weight合計1000。31番のみ weight10=約1%、他は weight33=約3.3%）
+const omikuji = [
+  { name: "人脈（じんみゃく）", desc: "素敵なご縁に恵まれ、助け合える仲間ができるでしょう。", weight: 33, effect: 0 },
+  { name: "人脈（じんみゃく）", desc: "思いがけない出会いが、未来を大きく変えるきっかけになるでしょう。", weight: 33, effect: 1 },
+  { name: "脈々（みゃくみゃく）", desc: "大切な伝統や想いを受け継ぎ、次へ繋げることができるでしょう。", weight: 33, effect: 2 },
+  { name: "脈々（みゃくみゃく）", desc: "あなたの今日の行動が、未来へと脈々と受け継がれていくでしょう。", weight: 33, effect: 3 },
+  { name: "脈拍（みゃくはく）", desc: "心身ともに健康で、リズムが安定しているでしょう。", weight: 33, effect: 4 },
+  { name: "脈拍（みゃくはく）", desc: "焦らず自分のペースを大切にすると、良い流れをつかめるでしょう。", weight: 33, effect: 5 },
+  { name: "脈絡（みゃくらく）", desc: "物事の筋道が見え、賢明な判断ができるでしょう。", weight: 33, effect: 6 },
+  { name: "脈絡（みゃくらく）", desc: "点と点がつながり、長く悩んでいたことの答えが見えてくるでしょう。", weight: 33, effect: 7 },
+  { name: "山脈（さんみゃく）", desc: "大きな志を持ち、さらなる高みへ到達できるでしょう。", weight: 33, effect: 8 },
+  { name: "山脈（さんみゃく）", desc: "目の前の一歩を積み重ねれば、いつか大きな頂に立てるでしょう。", weight: 33, effect: 9 },
+  { name: "水脈（すいみゃく）", desc: "知恵やアイデアが枯れることなく湧き出し続けるでしょう。", weight: 33, effect: 10 },
+  { name: "水脈（すいみゃく）", desc: "眠っていた可能性の泉が見つかり、新しい挑戦へつながるでしょう。", weight: 33, effect: 11 },
+  { name: "気脈（きみゃく）", desc: "周囲の人と心が通じ合い、最高の連携が取れるでしょう。", weight: 33, effect: 12 },
+  { name: "気脈（きみゃく）", desc: "息の合った仲間との協力が、大きな成果を生み出すでしょう。", weight: 33, effect: 13 },
+  { name: "地脈（ちみゃく）", desc: "場所や環境のエネルギーを味方につけ、安定するでしょう。", weight: 33, effect: 14 },
+  { name: "地脈（ちみゃく）", desc: "今いる場所こそが、あなたを大きく成長させる舞台になるでしょう。", weight: 33, effect: 15 },
+  { name: "鉱脈（こうみゃく）", desc: "自分の中に眠っていた新しい才能や宝を発見するでしょう。", weight: 33, effect: 16 },
+  { name: "鉱脈（こうみゃく）", desc: "努力を続けた先に、思いもよらない大きな実りが待っているでしょう。", weight: 33, effect: 17 },
+  { name: "脈あり（みゃくあり）", desc: "期待していたことに光が差し、願いが叶う兆しが見えるでしょう。", weight: 33, effect: 18 },
+  { name: "脈あり（みゃくあり）", desc: "今日の一歩が、うれしい返事や新たなチャンスを呼び込むでしょう。", weight: 33, effect: 19 },
+  { name: "ミャクミャク", desc: "変化を楽しみながら、生命力あふれる未来を切り拓くことができるでしょう。", weight: 33, effect: 20 },
+  { name: "ミャクミャク", desc: "違いを受け入れることで、自分らしい未来が大きく広がるでしょう。", weight: 33, effect: 21 },
+  { name: "動脈（どうみゃく）", desc: "力強いエネルギーが巡り、新しい挑戦へ踏み出せるでしょう。", weight: 33, effect: 22 },
+  { name: "静脈（じょうみゃく）", desc: "心を落ち着かせることで、本当に大切なものが見えてくるでしょう。", weight: 33, effect: 23 },
+  { name: "葉脈（ようみゃく）", desc: "小さな努力が枝葉のように広がり、大きな実りへ育っていくでしょう。", weight: 33, effect: 24 },
+  { name: "文脈（ぶんみゃく）", desc: "物事の背景を理解することで、より良い選択ができるでしょう。", weight: 33, effect: 25 },
+  { name: "命脈（めいみゃく）", desc: "大切にしてきたことが未来へ受け継がれ、新たな希望につながるでしょう。", weight: 33, effect: 26 },
+  { name: "血脈（けつみゃく）", desc: "受け継がれた力や支えが、あなたの背中を押してくれるでしょう。", weight: 33, effect: 27 },
+  { name: "一脈相通ず（いちみゃくあいつうず）", desc: "言葉にしなくても思いは伝わり、大切な人との絆が深まるでしょう。", weight: 33, effect: 28 },
+  { name: "脈診（みゃくしん）", desc: "自分自身の心と体の声に耳を傾けることで、幸運への道が開けるでしょう。", weight: 33, effect: 29 },
+  { name: "脈々（レアみゃくみゃく）", desc: "あなたの想いは今日だけでは終わりません。その優しさや挑戦は、誰かへ、そして未来へ脈々と受け継がれていくでしょう。", weight: 10, rare: true }
+];
+
+const STORAGE_DATE = "myakumyakuji31-date";
+const STORAGE_RESULT = "myakumyakuji31-result";
+
+function pickWeighted() {
+  const total = omikuji.reduce((sum, o) => sum + o.weight, 0);
+  let r = Math.random() * total;
+  for (const o of omikuji) {
+    if (r < o.weight) return o;
+    r -= o.weight;
+  }
+  return omikuji[omikuji.length - 1];
+}
+
+function draw() {
+  const today = new Date().toDateString();
+  const savedDate = localStorage.getItem(STORAGE_DATE);
+
+  if (savedDate === today) {
+    show(JSON.parse(localStorage.getItem(STORAGE_RESULT)));
+    return;
+  }
+
+  document.getElementById("drawBtn").disabled = true;
+  document.getElementById("status").innerText = "……シャッフル中……";
+  const card = document.getElementById("card");
+  card.classList.remove("show", "rare");
+
+  setTimeout(() => {
+    const result = pickWeighted();
+    localStorage.setItem(STORAGE_DATE, today);
+    localStorage.setItem(STORAGE_RESULT, JSON.stringify(result));
+    show(result);
+  }, 1200);
+}
+
+function show(r) {
+  document.getElementById("status").innerText = "";
+  document.getElementById("name").innerText = r.name;
+  document.getElementById("desc").innerText = r.desc;
+  document.getElementById("thanks").innerText = "ありがとう！また明日も来てね 🌱";
+
+  const card = document.getElementById("card");
+  card.classList.add("show");
+  card.classList.toggle("rare", !!r.rare);
+  document.getElementById("rareLabel").style.display = r.rare ? "inline-block" : "none";
+
+  if (r.rare) {
+    launchConfetti();
+  } else if (typeof r.effect === "number") {
+    playEffect(EFFECTS[r.effect]);
+  }
+
+  document.getElementById("drawBtn").disabled = false;
+  enableShareButtons(true);
+}
+
+function launchConfetti() {
+  const container = document.getElementById("confetti");
+  container.innerHTML = "";
+  const colors = [
+    "#FFD700", "#FFC800", "#FFF3B0",             // gold
+    "#E8E8E8", "#C0C0C0", "#FFFFFF",             // silver
+    "#FF4D6D", "#FF9F1C", "#FFE156", "#6BCB77", "#4D96FF", "#B983FF" // rainbow
+  ];
+  const pieceCount = 150;
+
+  for (let i = 0; i < pieceCount; i++) {
+    const piece = document.createElement("div");
+    piece.className = "confetti-piece";
+    const isCircle = Math.random() < 0.4;
+    const size = 6 + Math.random() * 9;
+    piece.style.width = size + "px";
+    piece.style.height = (isCircle ? size : size * 1.7) + "px";
+    piece.style.borderRadius = isCircle ? "50%" : "2px";
+    piece.style.left = Math.random() * 100 + "vw";
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.setProperty("--drift", (Math.random() * 180 - 90) + "px");
+    piece.style.setProperty("--spin", (Math.random() * 720 - 360) + "deg");
+    if (Math.random() < 0.35) {
+      piece.style.boxShadow = "0 0 6px 1px rgba(255,255,255,0.85)";
+    }
+    const duration = 2.6 + Math.random() * 2;
+    piece.style.animationDuration = duration + "s";
+    piece.style.animationDelay = (Math.random() * 0.7) + "s";
+    container.appendChild(piece);
+    setTimeout(() => piece.remove(), (duration + 1) * 1000);
+  }
+}
+
+// ==== 各結果ごとの抽象演出（激レア以外の30種） ====
+// 「落下」「交差」「連鎖」「上昇」「鼓動」「波」「成長」「収束」「静的シーン」「光条」「色相変化」の
+// 9つの抽象パターンを土台に、色・速度・形を結果ごとに変えて割り当てている。
+
+function rand(min, max) { return min + Math.random() * (max - min); }
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+// 上下または左右に漂う粒・線・光条
+function drift({ dir, shape, palette, count, speed = 1 }) {
+  return (w, h) => {
+    const parts = Array.from({ length: count }, () => {
+      if (dir === "cross") {
+        return {
+          fromLeft: Math.random() < 0.5,
+          y: rand(h * 0.12, h * 0.88),
+          delay: rand(0, 0.45),
+          len: rand(50, 130),
+          color: pick(palette)
+        };
+      }
+      return {
+        pos: rand(0, w),
+        delay: rand(0, 0.5),
+        size: rand(5, shape === "line" || shape === "streak" ? 90 : 12),
+        drift: rand(-26, 26),
+        color: pick(palette)
+      };
+    });
+    return (ctx, t) => {
+      ctx.lineCap = "round";
+      parts.forEach(p => {
+        const lt = clamp((t - p.delay) / (1 - p.delay * 0.6), 0, 1);
+        if (lt <= 0) return;
+        const e = easeOut(lt);
+        ctx.globalAlpha = 0.85 * (1 - lt * 0.35);
+
+        if (dir === "cross") {
+          const x = p.fromLeft ? -60 + e * (w + 120) : w + 60 - e * (w + 120);
+          ctx.strokeStyle = p.color;
+          ctx.lineWidth = 2.4;
+          ctx.beginPath();
+          ctx.moveTo(x - (p.fromLeft ? p.len : -p.len), p.y);
+          ctx.lineTo(x, p.y);
+          ctx.stroke();
+          return;
+        }
+
+        const travel = dir === "up" ? -(h + 60) : (h + 60);
+        const y = dir === "up" ? h + 40 + e * travel : -40 + e * travel;
+        const x = p.pos + Math.sin(e * Math.PI * 2) * p.drift * 0.4;
+
+        ctx.fillStyle = p.color;
+        ctx.strokeStyle = p.color;
+
+        if (shape === "soft" || shape === "droplet") {
+          ctx.beginPath();
+          ctx.arc(x, y, p.size * (shape === "droplet" ? 0.35 : 0.5), 0, Math.PI * 2);
+          ctx.fill();
+        } else if (shape === "line" || shape === "streak") {
+          ctx.lineWidth = shape === "streak" ? 3 : 2;
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.lineTo(x, y + (dir === "up" ? p.size : -p.size));
+          ctx.stroke();
+        }
+      });
+      ctx.globalAlpha = 1;
+    };
+  };
+}
+
+// 決まった道すじを進むマーカー(連鎖・階段・ジャンプ・バトンリレー)
+function pathWalk({ style, palette }) {
+  return (w, h) => (ctx, t) => {
+    ctx.lineCap = "round";
+    if (style === "chainBounce") {
+      const n = 6;
+      const spacing = w / (n + 1);
+      for (let i = 0; i < n; i++) {
+        const segStart = i / n, segEnd = (i + 1) / n;
+        if (t < segStart) continue;
+        const lt = clamp((t - segStart) / (segEnd - segStart), 0, 1);
+        const bounce = Math.sin(lt * Math.PI);
+        const x = spacing * (i + 1);
+        const y = h * 0.52 - bounce * 60;
+        ctx.fillStyle = palette[i % palette.length];
+        ctx.globalAlpha = 0.9;
+        ctx.beginPath();
+        ctx.arc(x, y, 9, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    } else if (style === "stairs") {
+      const steps = 7;
+      const x0 = w * 0.28, x1 = w * 0.72;
+      const y0 = h * 0.62, y1 = h * 0.3;
+      ctx.strokeStyle = "rgba(150,150,150,0.25)";
+      ctx.lineWidth = 2;
+      for (let i = 0; i <= steps; i++) {
+        const sx = x0 + (x1 - x0) * (i / steps);
+        const sy = y0 + (y1 - y0) * (i / steps);
+        ctx.beginPath();
+        ctx.moveTo(sx - 14, sy);
+        ctx.lineTo(sx + 14, sy);
+        ctx.stroke();
+      }
+      const e = easeOut(t);
+      ctx.fillStyle = palette[0];
+      ctx.globalAlpha = 0.95;
+      ctx.beginPath();
+      ctx.arc(x0 + (x1 - x0) * e, y0 + (y1 - y0) * e, 8, 0, Math.PI * 2);
+      ctx.fill();
+    } else if (style === "singleArc") {
+      const e = easeOut(t);
+      const x = w * 0.3 + e * w * 0.4;
+      const y = h * 0.55 - Math.sin(e * Math.PI) * 70;
+      ctx.fillStyle = palette[0];
+      ctx.globalAlpha = 0.9;
+      ctx.beginPath();
+      ctx.arc(x, y, 10, 0, Math.PI * 2);
+      ctx.fill();
+    } else if (style === "batonRelay") {
+      const n = 4;
+      for (let i = 0; i < n; i++) {
+        const segStart = i / n, segEnd = (i + 1) / n;
+        if (t < segStart || t > segEnd + 0.06) continue;
+        const lt = clamp((t - segStart) / (segEnd - segStart), 0, 1);
+        const x0 = w * (0.15 + 0.23 * i);
+        const x1 = w * (0.15 + 0.23 * (i + 1));
+        const cx = (x0 + x1) / 2;
+        const baseY = h * 0.45;
+        const cy = baseY - 50;
+        const x = (1 - lt) * (1 - lt) * x0 + 2 * (1 - lt) * lt * cx + lt * lt * x1;
+        const y = (1 - lt) * (1 - lt) * baseY + 2 * (1 - lt) * lt * cy + lt * lt * baseY;
+        ctx.fillStyle = palette[0];
+        ctx.globalAlpha = 0.9;
+        ctx.beginPath();
+        ctx.arc(x, y, 8, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+  };
+}
+
+// 鼓動のように広がる同心円
+function radiatePulse({ palette, speed }) {
+  return (w, h) => (ctx, t) => {
+    const cx = w / 2, cy = h * 0.4;
+    const cycles = speed >= 1 ? 3 : 1.6;
+    const phase = (t * cycles) % 1;
+    const r = 30 + Math.pow(Math.sin(phase * Math.PI), 2) * (speed >= 1 ? 110 : 80);
+    ctx.strokeStyle = palette[0];
+    ctx.globalAlpha = 0.55 * (1 - t * 0.4);
+    ctx.lineWidth = speed >= 1 ? 4 : 3;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  };
+}
+
+// くねくねと流れる波線
+function wave({ axis, palette, density, speed }) {
+  return (w, h) => {
+    const lines = Array.from({ length: density }, (_, i) => ({
+      offset: (i + 0.5) / density,
+      phase: rand(0, Math.PI * 2),
+      color: palette[i % palette.length]
+    }));
+    return (ctx, t) => {
+      const e = easeOut(Math.min(1, t * 1.3));
+      lines.forEach(l => {
+        ctx.strokeStyle = l.color;
+        ctx.globalAlpha = 0.4 * (1 - t * 0.3);
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        if (axis === "vertical") {
+          const baseX = l.offset * w;
+          const topY = h - e * (h + 40);
+          for (let y = h + 20; y >= topY; y -= 8) {
+            const x = baseX + Math.sin(y / 26 + l.phase + t * speed * 6) * 16;
+            if (y === h + 20) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+        } else {
+          const baseY = l.offset * h;
+          const endX = e * w;
+          for (let x = 0; x <= endX; x += 8) {
+            const y = baseY + Math.sin(x / 30 + l.phase + t * speed * 6) * 14;
+            if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+        }
+        ctx.stroke();
+      });
+      ctx.globalAlpha = 1;
+    };
+  };
+}
+
+// 一点から伸びる成長(直線・筆致・新芽・葉脈)
+function growFromPoint({ style, palette }) {
+  return (w, h) => {
+    const seed = Math.random() * 10;
+    return (ctx, t) => {
+      const e = easeOut(t);
+      ctx.strokeStyle = palette[0];
+      ctx.lineCap = "round";
+      ctx.globalAlpha = 0.8 * (1 - t * 0.2);
+
+      if (style === "straightLine") {
+        ctx.lineWidth = 3;
+        const y = h * 0.45;
+        ctx.beginPath();
+        ctx.moveTo(w * 0.15, y);
+        ctx.lineTo(w * 0.15 + w * 0.7 * e, y);
+        ctx.stroke();
+      } else if (style === "brushStroke") {
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        const steps = 40;
+        const n = Math.floor(steps * e);
+        for (let i = 0; i <= n; i++) {
+          const p = i / steps;
+          const x = w * 0.15 + p * w * 0.7;
+          const y = h * 0.45 + Math.sin(p * Math.PI * 2 + seed) * 40;
+          if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      } else if (style === "sprout") {
+        ctx.lineWidth = 3;
+        const baseX = w / 2, baseY = h * 0.7;
+        const topY = baseY - e * h * 0.28;
+        ctx.beginPath();
+        ctx.moveTo(baseX, baseY);
+        ctx.lineTo(baseX, topY);
+        ctx.stroke();
+        if (t > 0.55) {
+          const bloomT = (t - 0.55) / 0.45;
+          const petals = 6;
+          for (let i = 0; i < petals; i++) {
+            const ang = (i / petals) * Math.PI * 2;
+            const pr = 6 + bloomT * 22;
+            ctx.fillStyle = palette[1] || palette[0];
+            ctx.globalAlpha = 0.8 * bloomT;
+            ctx.beginPath();
+            ctx.arc(baseX + Math.cos(ang) * pr, topY + Math.sin(ang) * pr, 6, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      } else if (style === "veins") {
+        const grownDepth = Math.floor(e * 5);
+        ctx.lineWidth = 2;
+        (function branch(x, y, ang, len, depth) {
+          if (depth <= 0 || len < 4) return;
+          const x2 = x + Math.cos(ang) * len;
+          const y2 = y + Math.sin(ang) * len;
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.lineTo(x2, y2);
+          ctx.stroke();
+          branch(x2, y2, ang - 0.5, len * 0.7, depth - 1);
+          branch(x2, y2, ang + 0.5, len * 0.7, depth - 1);
+        })(w / 2, h * 0.75, -Math.PI / 2, h * 0.22, grownDepth);
+      }
+      ctx.globalAlpha = 1;
+    };
+  };
+}
+
+// 複数の点/円が中心へ集まる(輪・握手・合体・調和・見つめ合い)
+function converge({ count, blend, palette }) {
+  return (w, h) => {
+    const cx = w / 2, cy = h * 0.42;
+
+    if (blend === "ring") {
+      const pts = Array.from({ length: count }, (_, i) => ({ ang: (i / count) * Math.PI * 2, r: 70 }));
+      return (ctx, t) => {
+        ctx.fillStyle = palette[0];
+        ctx.strokeStyle = palette[0];
+        const dotsT = Math.min(1, t * 1.6);
+        pts.forEach(p => {
+          const e = easeOut(dotsT);
+          const x = cx + Math.cos(p.ang) * p.r * e;
+          const y = cy + Math.sin(p.ang) * p.r * e;
+          ctx.globalAlpha = 0.85;
+          ctx.beginPath();
+          ctx.arc(x, y, 5, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        if (t > 0.5) {
+          ctx.globalAlpha = 0.5 * ((t - 0.5) / 0.5);
+          ctx.lineWidth = 1.6;
+          ctx.beginPath();
+          pts.forEach((p, i) => {
+            const x = cx + Math.cos(p.ang) * p.r;
+            const y = cy + Math.sin(p.ang) * p.r;
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          });
+          ctx.closePath();
+          ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+      };
+    }
+
+    if (blend === "mergeSolid") {
+      const pts = Array.from({ length: count }, () => ({ ang: rand(0, Math.PI * 2), dist: rand(90, 150) }));
+      return (ctx, t) => {
+        const e = easeOut(t);
+        pts.forEach(p => {
+          const dist = p.dist * (1 - e);
+          ctx.fillStyle = palette[0];
+          ctx.globalAlpha = 0.75;
+          ctx.beginPath();
+          ctx.arc(cx + Math.cos(p.ang) * dist, cy + Math.sin(p.ang) * dist, 6 + e * 4, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        if (t > 0.7) {
+          ctx.globalAlpha = ((t - 0.7) / 0.3) * 0.8;
+          ctx.beginPath();
+          ctx.arc(cx, cy, 20, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+      };
+    }
+
+    // handshake / softHarmony / gaze: 2つの点が近づいて静かに落ち着く
+    const speed = blend === "gaze" ? 0.85 : 1;
+    return (ctx, t) => {
+      const e = easeOut(Math.min(1, t / speed));
+      const gap = 130 * (1 - e) + 10;
+      const r = blend === "softHarmony" ? 22 : 14;
+      ctx.globalAlpha = blend === "softHarmony" ? 0.5 : 0.85;
+      ctx.fillStyle = palette[0];
+      ctx.beginPath();
+      ctx.arc(cx - gap, cy, r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = palette[1] || palette[0];
+      ctx.beginPath();
+      ctx.arc(cx + gap, cy, r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    };
+  };
+}
+
+// ほぼ静止した情景(連山・地平線・宝石の煌めき・果実・呼吸)
+function staticScene({ type, palette, speed = 1 }) {
+  return (w, h) => {
+    const seed = Math.random() * 10;
+    return (ctx, t) => {
+      const shimmer = Math.sin(t * Math.PI * 2 * speed + seed) * 0.5 + 0.5;
+
+      if (type === "layers") {
+        palette.forEach((color, i) => {
+          const baseY = h * (0.28 + i * 0.07);
+          const bottomY = h * 0.5;
+          ctx.fillStyle = color;
+          ctx.globalAlpha = 0.16 + shimmer * 0.06;
+          ctx.beginPath();
+          ctx.moveTo(0, bottomY);
+          ctx.lineTo(0, baseY + 20);
+          for (let x = 0; x <= w; x += 20) ctx.lineTo(x, baseY + Math.sin(x / 60 + i) * 10);
+          ctx.lineTo(w, bottomY);
+          ctx.closePath();
+          ctx.fill();
+        });
+      } else if (type === "horizon") {
+        const grad = ctx.createLinearGradient(0, h * 0.4, 0, h * 0.7);
+        grad.addColorStop(0, palette[0]);
+        grad.addColorStop(1, palette[1]);
+        ctx.fillStyle = grad;
+        ctx.globalAlpha = 0.3;
+        ctx.fillRect(0, h * 0.25, w, h * 0.16);
+      } else if (type === "facet") {
+        for (let i = 0; i < 10; i++) {
+          const ang = (i / 10) * Math.PI * 2 + t * 0.6;
+          const x = w / 2 + Math.cos(ang) * 90;
+          const y = h * 0.4 + Math.sin(ang) * 54;
+          const glow = Math.sin(t * 6 + i) * 0.5 + 0.5;
+          ctx.fillStyle = palette[i % palette.length];
+          ctx.globalAlpha = 0.3 + glow * 0.5;
+          ctx.beginPath();
+          ctx.moveTo(x, y - 8);
+          ctx.lineTo(x + 8, y);
+          ctx.lineTo(x, y + 8);
+          ctx.lineTo(x - 8, y);
+          ctx.closePath();
+          ctx.fill();
+        }
+      } else if (type === "orb") {
+        const e = easeOut(t);
+        const r = 20 + e * 55;
+        const grad = ctx.createRadialGradient(w / 2, h * 0.42, 0, w / 2, h * 0.42, r);
+        grad.addColorStop(0, palette[0]);
+        grad.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.fillStyle = grad;
+        ctx.globalAlpha = 0.8;
+        ctx.beginPath();
+        ctx.arc(w / 2, h * 0.42, r, 0, Math.PI * 2);
+        ctx.fill();
+      } else if (type === "breath") {
+        const r = 60 + shimmer * 30;
+        const grad = ctx.createRadialGradient(w / 2, h * 0.42, r * 0.3, w / 2, h * 0.42, r);
+        grad.addColorStop(0, "rgba(255,255,255,0)");
+        grad.addColorStop(1, palette[0]);
+        ctx.fillStyle = grad;
+        ctx.globalAlpha = 0.35;
+        ctx.beginPath();
+        ctx.arc(w / 2, h * 0.42, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    };
+  };
+}
+
+// 木漏れ日のように差し込む光の帯
+function lightShafts({ palette, count }) {
+  return (w, h) => {
+    const shafts = Array.from({ length: count }, (_, i) => ({
+      x: ((i + 0.5) / count) * w,
+      delay: rand(0, 0.3),
+      color: palette[i % palette.length]
+    }));
+    return (ctx, t) => {
+      shafts.forEach(s => {
+        const lt = clamp((t - s.delay) / 0.7, 0, 1);
+        const flicker = Math.sin(t * 10 + s.x) * 0.15 + 0.55;
+        ctx.fillStyle = s.color;
+        ctx.globalAlpha = flicker * lt * (1 - t * 0.3);
+        ctx.beginPath();
+        ctx.moveTo(s.x - 30, -20);
+        ctx.lineTo(s.x + 30, -20);
+        ctx.lineTo(s.x + 70, h + 20);
+        ctx.lineTo(s.x - 70, h + 20);
+        ctx.closePath();
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1;
+    };
+  };
+}
+
+// 画面全体をゆるやかに包む色相の変化
+function colorWash({ palette }) {
+  return (w, h) => (ctx, t) => {
+    const idx = t * (palette.length - 1);
+    const i0 = Math.floor(idx), i1 = Math.min(palette.length - 1, i0 + 1);
+    const grad = ctx.createLinearGradient(0, 0, w, h);
+    grad.addColorStop(0, palette[i0]);
+    grad.addColorStop(1, palette[i1]);
+    ctx.fillStyle = grad;
+    ctx.globalAlpha = 0.16 * Math.sin(t * Math.PI);
+    ctx.fillRect(0, 0, w, h * 0.5);
+    ctx.globalAlpha = 1;
+  };
+}
+
+// 結果の配列順(effect: 0〜29)に対応する演出一覧
+const EFFECTS = [
+  drift({ dir: "down", shape: "soft", palette: ["#FFD166", "#FF9AA2", "#FFD6E8"], count: 34 }),
+  drift({ dir: "cross", shape: "beam", palette: ["#0089C7", "#E6002D", "#FFD700", "#6BCB77"], count: 12 }),
+  pathWalk({ style: "chainBounce", palette: ["#E6002D", "#0089C7"] }),
+  drift({ dir: "up", shape: "line", palette: ["#0089C7"], count: 22 }),
+  radiatePulse({ palette: ["#0089C7"], speed: 0.5 }),
+  wave({ axis: "vertical", palette: ["#7FB7D9", "#F5A6B8"], density: 9, speed: 0.5 }),
+  growFromPoint({ style: "straightLine", palette: ["#005E8E"] }),
+  converge({ count: 8, blend: "ring", palette: ["#0089C7"] }),
+  staticScene({ type: "layers", palette: ["#CFE3EF", "#AFCBE0", "#8FB4D1"] }),
+  pathWalk({ style: "stairs", palette: ["#E6A400"] }),
+  drift({ dir: "up", shape: "droplet", palette: ["#3FB6C9", "#7FD8E0"], count: 24 }),
+  wave({ axis: "horizontal", palette: ["#2E9BB0", "#5FC7D6"], density: 7, speed: 0.8 }),
+  converge({ count: 2, blend: "handshake", palette: ["#E6A400", "#0089C7"] }),
+  converge({ count: 10, blend: "mergeSolid", palette: ["#6BCB77"] }),
+  staticScene({ type: "horizon", palette: ["#E8D9BE", "#D8C39F"] }),
+  growFromPoint({ style: "sprout", palette: ["#6BCB77", "#FF9AA2"] }),
+  staticScene({ type: "facet", palette: ["#EAF6FF", "#BFE3FF", "#FFFFFF"] }),
+  staticScene({ type: "orb", palette: ["#FFB703"] }),
+  lightShafts({ palette: ["#FFE29A", "#FFD166"], count: 6 }),
+  pathWalk({ style: "singleArc", palette: ["#FF7A5C"] }),
+  colorWash({ palette: ["#E6002D", "#FFD700", "#0089C7", "#6BCB77"] }),
+  converge({ count: 2, blend: "softHarmony", palette: ["#FF9AA2", "#7FB7D9"] }),
+  radiatePulse({ palette: ["#E6002D"], speed: 1.2 }),
+  staticScene({ type: "breath", palette: ["#9FB4C7"], speed: 0.3 }),
+  growFromPoint({ style: "veins", palette: ["#3F9142"] }),
+  growFromPoint({ style: "brushStroke", palette: ["#2B2B2B"] }),
+  pathWalk({ style: "batonRelay", palette: ["#FF9F1C"] }),
+  drift({ dir: "up", shape: "streak", palette: ["#E6002D"], count: 18, speed: 1.4 }),
+  converge({ count: 2, blend: "gaze", palette: ["#B983FF", "#7FB7D9"] }),
+  staticScene({ type: "breath", palette: ["#F0C27B"], speed: 0.18 })
+];
+
+let effectCtx = null;
+let effectRAF = null;
+
+function initEffectCanvas() {
+  const canvas = document.getElementById("effectCanvas");
+  const ctx = canvas.getContext("2d");
+  function resize() {
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+    canvas.style.width = window.innerWidth + "px";
+    canvas.style.height = window.innerHeight + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+  window.addEventListener("resize", resize);
+  return ctx;
+}
+
+function playEffect(builder) {
+  if (!builder) return;
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (!effectCtx) effectCtx = initEffectCanvas();
+  if (effectRAF) cancelAnimationFrame(effectRAF);
+
+  const w = window.innerWidth, h = window.innerHeight;
+  const frame = builder(w, h);
+  const duration = 2500;
+  const start = performance.now();
+
+  function tick(now) {
+    const t = Math.min(1, (now - start) / duration);
+    effectCtx.clearRect(0, 0, w, h);
+    frame(effectCtx, t, w, h);
+    if (t < 1) {
+      effectRAF = requestAnimationFrame(tick);
+    } else {
+      effectCtx.clearRect(0, 0, w, h);
+      effectRAF = null;
+    }
+  }
+  effectRAF = requestAnimationFrame(tick);
+}
+
+function getResultText() {
+  const saved = localStorage.getItem(STORAGE_RESULT);
+  if (!saved) return "みゃくみゃくじ（31種）で今日の運を占おう！";
+  const r = JSON.parse(saved);
+  return `【みゃくみゃくじ】今日の結果は「${r.name}」でした！\n${r.desc}`;
+}
+
+function enableShareButtons(enabled) {
+  document.querySelectorAll(".share-buttons button").forEach(b => b.disabled = !enabled);
+}
+
+// SNSシェア（結果の内容を含めてシェア）
+function shareX() {
+  const url = encodeURIComponent(location.href);
+  const text = encodeURIComponent(getResultText() + "\n#みゃくみゃくじ");
+  window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, "_blank", "noopener,noreferrer");
+}
+
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch (e) {
+    // clipboard API が使えない環境向けフォールバック
+    const temp = document.createElement("textarea");
+    temp.value = text;
+    temp.style.position = "fixed";
+    temp.style.opacity = "0";
+    document.body.appendChild(temp);
+    temp.select();
+    let ok = false;
+    try {
+      document.execCommand("copy");
+      ok = true;
+    } catch (e2) {
+      ok = false;
+    }
+    document.body.removeChild(temp);
+    return ok;
+  }
+}
+
+// Facebookのシェアダイアログは quote パラメータをほとんど反映しないため、
+// 結果テキストを先にコピーしてから開き、貼り付けてもらう形にする
+async function shareFacebook() {
+  const url = encodeURIComponent(location.href);
+  const quote = encodeURIComponent(getResultText());
+  const toast = document.getElementById("copyToast");
+  const copied = await copyText(getResultText());
+  toast.innerText = copied
+    ? "結果をコピーしました。Facebookの投稿欄に貼り付けてください！"
+    : "Facebookの投稿画面が開きます。";
+  window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${quote}`, "_blank", "noopener,noreferrer");
+  setTimeout(() => { toast.innerText = ""; }, 4000);
+}
+
+function shareLINE() {
+  const url = encodeURIComponent(location.href);
+  const text = encodeURIComponent(getResultText());
+  window.open(`https://social-plugins.line.me/lineit/share?url=${url}&text=${text}`, "_blank", "noopener,noreferrer");
+}
+
+async function copyLink() {
+  const toast = document.getElementById("copyToast");
+  const copied = await copyText(location.href);
+  toast.innerText = copied ? "リンクをコピーしました！" : "コピーに失敗しました。URLを手動でコピーしてください。";
+  setTimeout(() => { toast.innerText = ""; }, 2500);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const today = new Date().toDateString();
+  if (localStorage.getItem(STORAGE_DATE) === today) {
+    show(JSON.parse(localStorage.getItem(STORAGE_RESULT)));
+  } else {
+    enableShareButtons(false);
+  }
+});
+</script>
+</head>
+
+<body>
+
+<div id="confetti" class="confetti-container" aria-hidden="true"></div>
+<canvas id="effectCanvas" class="effect-canvas" aria-hidden="true"></canvas>
+
+<h1>みゃくみゃくじ 31</h1>
+<div class="badge">全31種・激レア「脈々」出現率 約1%</div>
+
+<div class="intro">
+  31の「脈」から、今日のあなたに流れている運をひとつ授けます。<br>
+  1日1回引けます。
+</div>
+
+<button id="drawBtn" onclick="draw()">くじを引く</button>
+
+<div class="result">
+  <div id="status" class="shuffle"></div>
+  <div id="card" class="card">
+    <span id="rareLabel" class="rare-label" style="display:none;">✨ 激レア ✨</span>
+    <div id="name" class="name"></div>
+    <div id="desc" class="desc"></div>
+  </div>
+  <div id="thanks" class="thanks"></div>
+</div>
+
+<div class="share-message">
+  良ければ皆さんにシェアをお願いします。<br>
+  さらに運気が上がることでしょう。
+</div>
+
+<div class="share-buttons">
+  <button class="share-x" onclick="shareX()" disabled>Xでシェア</button>
+  <button class="share-facebook" onclick="shareFacebook()" disabled>Facebookでシェア</button>
+  <button class="share-line" onclick="shareLINE()" disabled>LINEでシェア</button>
+  <button class="share-copy" onclick="copyLink()">リンクをコピー</button>
+</div>
+<div id="copyToast" class="copy-toast"></div>
+
+<footer>
+  © 2026 みゃくみゃくじ<br>
+  ※ 本コンテンツは個人制作の占いコンテンツです。<br>
+  ※ 本コンテンツは特定の団体・キャラクターとは関係ありません。
+</footer>
+
+</body>
+</html>
